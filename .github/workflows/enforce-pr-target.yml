@@ -35,15 +35,26 @@ jobs:
             const maintainers = ['alirezarezvani'];
             const isMaintainer = maintainers.includes(author);
 
-            const message = `👋 Hi @${author}, thanks for your contribution!
+            const nextStep = isMaintainer
+              ? 'This check will re-run automatically once the base branch is changed.'
+              : 'This PR has been closed automatically; reopen it after retargeting, ' +
+                'or open a new PR against `dev`.';
 
-            All PRs must target the \`dev\` branch, not \`main\`. The \`main\` branch only receives \`dev -> main\` promotion PRs (see CLAUDE.md > Git Workflow).
-
-            **How to fix:** click "Edit" at the top right of this PR and change the base branch to \`dev\`.
-
-            ${isMaintainer ? 'This check will re-run automatically once the base branch is changed.' : 'This PR has been closed automatically; reopen it after retargeting, or open a new PR against `dev`.'}
-
-            See our [Contributing Guide](https://github.com/alirezarezvani/claude-skills/blob/dev/CONTRIBUTING.md) for details.`;
+            const message = [
+              `👋 Hi @${author}, thanks for your contribution!`,
+              '',
+              'All PRs must target the `dev` branch, not `main`. The `main` branch',
+              'only receives `dev -> main` promotion PRs (see CLAUDE.md > Git Workflow).',
+              '',
+              '**How to fix:** click "Edit" at the top right of this PR and change',
+              'the base branch to `dev`.',
+              '',
+              nextStep,
+              '',
+              'See our [Contributing Guide]' +
+              '(https://github.com/alirezarezvani/claude-skills/blob/dev/CONTRIBUTING.md)' +
+              ' for details.',
+            ].join('\n');
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
