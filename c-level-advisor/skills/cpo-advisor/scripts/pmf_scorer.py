@@ -556,6 +556,11 @@ def main():
         action="store_true",
         help="Output raw JSON instead of formatted report",
     )
+    parser.add_argument(
+        "--sample",
+        action="store_true",
+        help="Run with the built-in sample data (no notice line — safe for JSON piping)",
+    )
     args = parser.parse_args()
 
     if args.input:
@@ -568,6 +573,8 @@ def main():
         except json.JSONDecodeError as e:
             print(f"Error: invalid JSON: {e}", file=sys.stderr)
             sys.exit(1)
+    elif args.sample:
+        data = sample_data()
     else:
         print("No input file provided — running with sample data.\n")
         data = sample_data()

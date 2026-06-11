@@ -528,9 +528,13 @@ if __name__ == "__main__":
         "--json", action="store_true",
         help="Output raw JSON instead of formatted report"
     )
+    parser.add_argument(
+        "--sample", action="store_true",
+        help="Run with the embedded sample data (ignores input_file)"
+    )
     args = parser.parse_args()
 
-    if args.input_file:
+    if args.input_file and not args.sample:
         with open(args.input_file) as f:
             data = json.load(f)
         current_state = data["current_state"]
